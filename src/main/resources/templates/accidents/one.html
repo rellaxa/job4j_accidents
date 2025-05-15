@@ -55,10 +55,26 @@
                            placeholder="Pushkin St." required>
                 </div>
             </div>
-            <div class="mb-4">
-                <label for="text" class="form-label fw-bold">Description</label>
-                <textarea class="form-control" id="text" rows="4" th:field="*{text}">
-                          placeholder="Describe the accident" required></textarea>
+            <div class="row g-3 mb-3">
+                <div class="col-md-8">
+                    <label for="text" class="form-label fw-bold">Description</label>
+                    <textarea class="form-control" id="text" th:field="*{text}" rows="4"
+                              placeholder="Describe the accident" required></textarea>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold" for="type.id">Type</label>
+                    <div class="form-floating">
+                        <select class="form-select" id="type.id" name="type.id" required>
+                            <option disabled selected value="">Select type</option>
+                            <option th:each="type : ${types}"
+                                    th:selected="${accident.type.id == type.id}"
+                                    th:value="${type.id}"
+                                    th:text="${type.name}">
+                            </option>
+                        </select>
+                        <label for="type.id">Type</label>
+                    </div>
+                </div>
             </div>
             <div class="d-flex gap-2">
                 <a th:href="@{/accidents}"

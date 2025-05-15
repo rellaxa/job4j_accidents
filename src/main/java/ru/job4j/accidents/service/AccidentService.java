@@ -3,6 +3,7 @@ package ru.job4j.accidents.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.repository.AccidentMem;
 
 import java.util.List;
@@ -26,8 +27,12 @@ public class AccidentService {
 		return accidentMem.getAll();
 	}
 
-	public List<Accident> generate(int size) {
-		return accidentMem.generateAccidents(size);
+	public List<AccidentType> getAccidentTypes() {
+		return List.of(
+				new AccidentType(1, "Две машины"),
+				new AccidentType(2, "Машина и человек"),
+				new AccidentType(3, "Машина и велосипед")
+		);
 	}
 
 	public void update(Accident accident) {

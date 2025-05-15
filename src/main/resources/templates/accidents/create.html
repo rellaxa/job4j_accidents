@@ -13,6 +13,7 @@
             margin: 2rem auto;
             border-radius: .75rem;
         }
+
         .card-form .card-body {
             padding: 2rem;
         }
@@ -54,16 +55,32 @@
                            placeholder="Pushkin St." required>
                 </div>
             </div>
-            <div class="mb-4">
-                <label for="text" class="form-label fw-bold">Description</label>
-                <textarea class="form-control" id="text" name="text" rows="4"
-                          placeholder="Describe the accident" required></textarea>
+            <div class="row g-3 mb-3">
+                <div class="col-md-8">
+                    <label for="text" class="form-label fw-bold">Description</label>
+                    <textarea class="form-control" id="text" name="text" rows="4"
+                              placeholder="Describe the accident" required></textarea>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold" for="type.id">Type</label>
+                    <div class="form-floating">
+                        <select class="form-select" id="type.id" name="type.id" required>
+                            <option disabled selected value="">Select type</option>
+                            <option th:each="type : ${types}"
+                                    th:value="${type.id}"
+                                    th:text="${type.name}">
+                            </option>
+                        </select>
+                        <label for="type.id">Type</label>
+                    </div>
+                </div>
             </div>
             <div class="d-flex gap-2">
                 <a th:href="@{/accidents}"
                    class="btn btn-outline-danger flex-fill">Cancel</a>
                 <button type="submit"
-                        class="btn btn-primary flex-fill">Save Accident</button>
+                        class="btn btn-primary flex-fill">Save Accident
+                </button>
             </div>
         </form>
     </div>

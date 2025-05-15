@@ -5,7 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.service.AccidentService;
+
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -16,19 +19,20 @@ public class AccidentController {
 
 	@GetMapping
 	public String getAllAccidents(Model model) {
-		model.addAttribute("accidents", accidentService.getAll());
 		model.addAttribute("user", "relaxa");
-		return "/accidents/allAccidents";
+		model.addAttribute("accidents", accidentService.getAll());
+		return "/accidents/all";
 	}
 
 	@GetMapping("/addAccident")
 	public String viewCreateAccident(Model model) {
 		model.addAttribute("user", "relaxa");
-		return "/accidents/createAccident";
+		model.addAttribute("types", accidentService.getAccidentTypes());
+		return "/accidents/create";
 	}
 
 	@PostMapping("/saveAccident")
-	public String save(@ModelAttribute Accident accident) {
+	public String createAccident(@ModelAttribute Accident accident) {
 		accidentService.create(accident);
 		return "redirect:/accidents";
 	}
@@ -42,9 +46,10 @@ public class AccidentController {
 			model.addAttribute("error", error);
 			return "/errors/404";
 		}
-		model.addAttribute("accident", accidentOpt.get());
 		model.addAttribute("user", "relaxa");
-		return "/accidents/oneAccident";
+		model.addAttribute("accident", accidentOpt.get());
+		model.addAttribute("types", accidentService.getAccidentTypes());
+		return "/accidents/one";
 	}
 
 	@PostMapping("/updateAccident")

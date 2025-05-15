@@ -36,18 +36,6 @@ public class AccidentMem {
 		return new ArrayList<>(accidents.values());
 	}
 
-	public List<Accident> generateAccidents(int size) {
-		log.info("Generating accidents: {}", size);
-		List<Accident> generatedAccidents = new ArrayList<>();
-		for (int i = 0; i < size; i++) {
-			int id = counter.getAndIncrement();
-			Accident accident = new Accident(id, String.format("Accident #%d", id), "text", "address");
-			accidents.put(id, accident);
-			generatedAccidents.add(accident);
-		}
-		return generatedAccidents;
-	}
-
 	public void update(Accident accident) {
 		accidents.put(accident.getId(), accident);
 	}
