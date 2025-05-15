@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Repository
@@ -19,12 +17,13 @@ public class AccidentMem {
 
 	private final Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
 
-	private final AtomicInteger counter = new AtomicInteger(0);
+	private final AtomicInteger counter = new AtomicInteger(1);
 
-	public void add(Accident accident) {
+	public Accident add(Accident accident) {
 		accident.setId(counter.getAndIncrement());
 		log.info("Adding accident: {}", accident);
 		accidents.put(accident.getId(), accident);
+		return accident;
 	}
 
 	public Optional<Accident> getById(int id) {
@@ -47,6 +46,10 @@ public class AccidentMem {
 			generatedAccidents.add(accident);
 		}
 		return generatedAccidents;
+	}
+
+	public void update(Accident accident) {
+		accidents.put(accident.getId(), accident);
 	}
 
 	public void deleteAll() {

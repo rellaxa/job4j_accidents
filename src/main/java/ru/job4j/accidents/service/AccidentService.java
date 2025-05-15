@@ -14,7 +14,7 @@ public class AccidentService {
 
 	private final AccidentMem accidentMem;
 
-	public void save(Accident accident) {
+	public void create(Accident accident) {
 		accidentMem.add(accident);
 	}
 
@@ -32,5 +32,9 @@ public class AccidentService {
 
 	public void deleteAll() {
 		accidentMem.deleteAll();
+	}
+
+	public void update(Accident accident) {
+		accidentMem.update(accident);
 	}
 }

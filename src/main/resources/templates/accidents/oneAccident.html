@@ -1,0 +1,76 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add Accident</title>
+    <link rel="icon" href="data:,">
+    <!-- Bootstrap CSS + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-form {
+            max-width: 750px;
+            margin: 2rem auto;
+            border-radius: .75rem;
+        }
+        .card-form .card-body {
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">Car accidents</a>
+        <div class="collapse navbar-collapse">
+            <div class="navbar-nav me-auto">
+                <a class="nav-item nav-link" th:href="@{/accidents}">Accidents</a>
+                <a class="nav-item nav-link" th:href="@{/accidents/addAccident}">Add accident</a>
+            </div>
+        </div>
+        <a class="nav-link text-secondary me-3" href="#" th:text="${user}"></a>
+    </div>
+</nav>
+
+<!-- Form Card -->
+<div class="card shadow-sm card-form">
+    <div class="card-body">
+        <h3 class="card-title text-center mb-4">New Accident</h3>
+        <form th:action="@{/accidents/updateAccident}" method="POST" th:object="${accident}" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{id}">
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="name" class="form-label fw-bold">Name</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}"
+                           placeholder="Accident 1" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="address" class="form-label fw-bold">Address</label>
+                    <input type="text" class="form-control" id="address" th:field="*{address}"
+                           placeholder="Pushkin St." required>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="text" class="form-label fw-bold">Description</label>
+                <textarea class="form-control" id="text" rows="4" th:field="*{text}">
+                          placeholder="Describe the accident" required></textarea>
+            </div>
+            <div class="d-flex gap-2">
+                <a th:href="@{/accidents}"
+                   class="btn btn-outline-danger flex-fill">Back</a>
+                <button type="submit"
+                        class="btn btn-primary flex-fill">Update Accident</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
