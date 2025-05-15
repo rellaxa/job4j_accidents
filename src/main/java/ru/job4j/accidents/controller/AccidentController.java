@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.service.AccidentService;
 
-import java.util.Optional;
-
 @Controller
 @AllArgsConstructor
 @RequestMapping("/accidents")
@@ -35,8 +33,8 @@ public class AccidentController {
 		return "redirect:/accidents";
 	}
 
-	@GetMapping("/{id}")
-	public String getAccidentById(@PathVariable int id, Model model) {
+	@GetMapping("/oneAccident")
+	public String getAccidentById(@RequestParam("id") int id, Model model) {
 		var accidentOpt = accidentService.findById(id);
 		if (accidentOpt.isEmpty()) {
 			model.addAttribute("user", "relaxa");

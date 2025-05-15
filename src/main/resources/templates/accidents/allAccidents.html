@@ -85,7 +85,7 @@
 
                     <td >
                         <a th:text="${accident.name}"
-                            th:href="@{/accidents/{id}(id=${accident.id})}">
+                            th:href="@{|accidents/oneAccident?id=${accident.id}|}">
                         </a>
                     </td>
 

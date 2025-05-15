@@ -30,11 +30,11 @@ public class AccidentService {
 		return accidentMem.generateAccidents(size);
 	}
 
-	public void deleteAll() {
-		accidentMem.deleteAll();
-	}
-
 	public void update(Accident accident) {
 		accidentMem.update(accident);
+	}
+
+	public void deleteAll() {
+		accidentMem.deleteAll();
 	}
 }
