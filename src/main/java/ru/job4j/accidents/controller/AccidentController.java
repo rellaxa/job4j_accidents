@@ -1,13 +1,17 @@
 package ru.job4j.accidents.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
+import ru.job4j.accidents.model.Article;
 import ru.job4j.accidents.service.AccidentService;
+import ru.job4j.accidents.service.ArticleService;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -17,6 +21,8 @@ public class AccidentController {
 
 	private final AccidentService accidentService;
 
+	private final ArticleService articleService;
+
 	@GetMapping
 	public String getAllAccidents(Model model) {
 		model.addAttribute("user", "relaxa");
@@ -25,15 +31,18 @@ public class AccidentController {
 	}
 
 	@GetMapping("/addAccident")
-	public String viewCreateAccident(Model model) {
+	public String createAccidentPage(Model model) {
 		model.addAttribute("user", "relaxa");
-		model.addAttribute("types", accidentService.getAccidentTypes());
+		model.addAttribute("types", getAccidentTypes());
+		model.addAttribute("articles", articleService.getArticles());
 		return "/accidents/create";
 	}
 
 	@PostMapping("/saveAccident")
-	public String createAccident(@ModelAttribute Accident accident) {
-		accidentService.create(accident);
+	public String createAccident(@ModelAttribute Accident accident, HttpServletRequest req) {
+		String[] ids = req.getParameterValues("rIds");
+		System.out.println(Arrays.toString(ids));
+		accidentService.create(accident, ids);
 		return "redirect:/accidents";
 	}
 
@@ -48,15 +57,25 @@ public class AccidentController {
 		}
 		model.addAttribute("user", "relaxa");
 		model.addAttribute("accident", accidentOpt.get());
-		model.addAttribute("types", accidentService.getAccidentTypes());
+		model.addAttribute("types", getAccidentTypes());
+		model.addAttribute("allArticles", articleService.getArticles());
 		return "/accidents/one";
 	}
 
 	@PostMapping("/updateAccident")
-	public String updatePage(@ModelAttribute Accident accident, Model model) {
+	public String updatePage(@ModelAttribute Accident accident, HttpServletRequest req, Model model) {
 		model.addAttribute("user", "relaxa");
-		accidentService.update(accident);
+		String[] ids = req.getParameterValues("rIds");
+		accidentService.update(accident, ids);
 		return "redirect:/accidents";
+	}
+
+	private List<AccidentType> getAccidentTypes() {
+		return List.of(
+				new AccidentType(1, "Две машины"),
+				new AccidentType(2, "Машина и человек"),
+				new AccidentType(3, "Машина и велосипед")
+		);
 	}
 
 }

@@ -44,38 +44,54 @@
         <form th:action="@{/accidents/updateAccident}" method="POST" th:object="${accident}" enctype="multipart/form-data">
             <input type="hidden" th:field="*{id}">
             <div class="row g-3 mb-3">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <label for="name" class="form-label fw-bold">Name</label>
                     <input type="text" class="form-control" id="name" th:field="*{name}"
                            placeholder="Accident 1" required>
                 </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <!-- Слева: Type -->
+                <div class="col-6">
+                    <label for="typeId" class="form-label fw-bold text-dark">Type</label>
+                    <select class="form-select" id="typeId" name="type.id" required>
+                        <option th:each="type : ${types}"
+                                th:selected="${type.id == accident.type.id}"
+                                th:value="${type.id}"
+                                th:text="${type.name}">
+                        </option>
+                    </select>
+                </div>
+
                 <div class="col-md-6">
                     <label for="address" class="form-label fw-bold">Address</label>
                     <input type="text" class="form-control" id="address" th:field="*{address}"
                            placeholder="Pushkin St." required>
                 </div>
             </div>
+
             <div class="row g-3 mb-3">
+                <!-- Articles слева -->
                 <div class="col-md-8">
-                    <label for="text" class="form-label fw-bold">Description</label>
+                    <label for="text" class="form-label fw-bold text-dark">Description</label>
                     <textarea class="form-control" id="text" th:field="*{text}" rows="4"
                               placeholder="Describe the accident" required></textarea>
                 </div>
+
+                <!-- Description справа -->
                 <div class="col-md-4">
-                    <label class="form-label fw-bold" for="type.id">Type</label>
-                    <div class="form-floating">
-                        <select class="form-select" id="type.id" name="type.id" required>
-                            <option disabled selected value="">Select type</option>
-                            <option th:each="type : ${types}"
-                                    th:selected="${accident.type.id == type.id}"
-                                    th:value="${type.id}"
-                                    th:text="${type.name}">
-                            </option>
-                        </select>
-                        <label for="type.id">Type</label>
-                    </div>
+                    <label for="articleId" class="form-label fw-bold text-dark">Articles</label>
+                    <select class="form-select" id="articleId" name="rIds" multiple required>
+                        <option th:each="article : ${allArticles}"
+                                th:selected="${accident.articles.contains(article)}"
+                                th:value="${article.id}"
+                                th:text="${article.name}">
+                        </option>
+                    </select>
                 </div>
             </div>
+
             <div class="d-flex gap-2">
                 <a th:href="@{/accidents}"
                    class="btn btn-outline-danger flex-fill">Back</a>
