@@ -1,13 +1,11 @@
-package ru.job4j.accidents.repository;
+package ru.job4j.accidents.repository.article;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Article;
 
 import java.util.*;
 
 @Slf4j
-@Repository
 public class ArticlesMem {
 
 	private final Map<Integer, Article> articles = new HashMap<>();

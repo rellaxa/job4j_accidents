@@ -92,12 +92,23 @@
                 </div>
             </div>
 
-            <div class="d-flex gap-2">
+            <div class="d-flex gap-2 mb-3">
                 <a th:href="@{/accidents}"
-                   class="btn btn-outline-danger flex-fill">Back</a>
+                   class="btn btn-outline-secondary flex-fill">
+                    <i class="bi bi-arrow-left"></i> Back
+                </a>
+
+                <a th:href="@{/accidents/deleteAccident/{id}(id=${accident.id})}"
+                   class="btn btn-outline-danger flex-fill">
+                    <i class="bi bi-trash"></i> Delete
+                </a>
+
                 <button type="submit"
-                        class="btn btn-primary flex-fill">Update Accident</button>
+                        class="btn btn-primary flex-fill">
+                    <i class="bi bi-pencil-square"></i> Update Accident
+                </button>
             </div>
+
         </form>
     </div>
 </div>

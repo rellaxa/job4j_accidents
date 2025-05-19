@@ -1,24 +1,22 @@
-package ru.job4j.accidents.repository;
+package ru.job4j.accidents.repository.accident;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
-@Repository
-public class AccidentMem {
+public class AccidentMem implements AccidentRepository {
 
 	private final Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
 
 	private final AtomicInteger counter = new AtomicInteger(1);
 
+	@Override
 	public Accident add(Accident accident) {
 		accident.setId(counter.getAndIncrement());
 		log.info("Adding accident: {}", accident);
@@ -26,18 +24,26 @@ public class AccidentMem {
 		return accident;
 	}
 
-	public Optional<Accident> getById(int id) {
+	@Override
+	public Accident getById(int id) {
 		log.info("Getting accident: {}", id);
-		return Optional.ofNullable(accidents.get(id));
+		return accidents.get(id);
 	}
 
+	@Override
 	public List<Accident> getAll() {
 		log.info("Getting all accidents");
 		return new ArrayList<>(accidents.values());
 	}
 
+	@Override
 	public void update(Accident accident) {
 		accidents.put(accident.getId(), accident);
+	}
+
+	@Override
+	public boolean deleteById(int id) {
+		return accidents.remove(id) != null;
 	}
 
 	public void deleteAll() {
