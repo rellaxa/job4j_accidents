@@ -17,7 +17,7 @@ public class AccidentMem implements AccidentRepository {
 	private final AtomicInteger counter = new AtomicInteger(1);
 
 	@Override
-	public Accident add(Accident accident) {
+	public Accident add(Accident accident, List<Integer> articleIds) {
 		accident.setId(counter.getAndIncrement());
 		log.info("Adding accident: {}", accident);
 		accidents.put(accident.getId(), accident);
@@ -37,7 +37,7 @@ public class AccidentMem implements AccidentRepository {
 	}
 
 	@Override
-	public void update(Accident accident) {
+	public void update(Accident accident, List<Integer> ids) {
 		accidents.put(accident.getId(), accident);
 	}
 

@@ -3,13 +3,11 @@ package ru.job4j.accidents.repository.accident.type;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.AccidentType;
 
 import java.util.List;
 
 @Slf4j
-@Repository
 @AllArgsConstructor
 public class AccidentTypeJdbcTemplate implements AccidentTypeRepository {
 

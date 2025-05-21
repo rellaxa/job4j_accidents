@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface AccidentRepository {
 
-	Accident add(Accident accident);
+	Accident add(Accident accident, List<Integer> articleIds);
 
 	Accident getById(int id);
 
 	List<Accident> getAll();
 
-	void update(Accident accident);
+	void update(Accident accident, List<Integer> ids);
 
 	boolean deleteById(int id);
 }

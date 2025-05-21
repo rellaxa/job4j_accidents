@@ -1,15 +1,16 @@
 package ru.job4j.accidents.service.accident;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.model.Article;
 import ru.job4j.accidents.repository.accident.AccidentRepository;
 import ru.job4j.accidents.service.article.ArticleService;
 import ru.job4j.accidents.service.accident.type.AccidentTypeService;
 
 import java.util.*;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class SimpleAccidentService implements AccidentService {
@@ -21,7 +22,9 @@ public class SimpleAccidentService implements AccidentService {
 	private final ArticleService articleService;
 
 	public void create(Accident accident, String[] articleIds) {
-		accidentRepository.add(getAccidentWithArticles(accident, articleIds));
+		var ids = Arrays.stream(articleIds).map(Integer::parseInt).toList();
+		accidentRepository.add(accident, ids);
+		log.info("Accident created: {}", accident);
 	}
 
 	public Optional<Accident> findById(int id) {
@@ -33,26 +36,18 @@ public class SimpleAccidentService implements AccidentService {
 		return Optional.of(accident);
 	}
 
-	public List<Accident> getAll() {
+	public Collection<Accident> getAll() {
 		return accidentRepository.getAll();
 	}
 
 	public void update(Accident accident, String[] articleIds) {
-		accidentRepository.update(getAccidentWithArticles(accident, articleIds));
+		var ids = Arrays.stream(articleIds).map(Integer::parseInt).toList();
+		accidentRepository.update(accident, ids);
 	}
 
 	@Override
 	public boolean deleteById(int id) {
 		var deleted = articleService.deleteByAccidentId(id);
 		return deleted && accidentRepository.deleteById(id);
-	}
-
-	private Accident getAccidentWithArticles(Accident accident, String[] articleIds) {
-		Set<Article> articles = new HashSet<>();
-		for (String articleId : articleIds) {
-			articles.add(articleService.getArticleById(Integer.parseInt(articleId)));
-		}
-		accident.setArticles(articles);
-		return accident;
 	}
 }

@@ -6,6 +6,7 @@ import ru.job4j.accidents.model.Article;
 import ru.job4j.accidents.repository.article.ArticleRepository;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -31,5 +32,10 @@ public class SimpleArticleService implements ArticleService {
 	@Override
 	public boolean deleteByAccidentId(int id) {
 		return articleRepository.deleteByAccidentId(id);
+	}
+
+	@Override
+	public Collection<Article> getArticlesByAccidentId(List<Integer> articleIds) {
+		return articleRepository.getArticlesByArticleIds(articleIds);
 	}
 }

@@ -6,7 +6,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.model.Article;
@@ -16,14 +15,13 @@ import java.sql.Statement;
 import java.util.List;
 
 @Slf4j
-@Repository
 @AllArgsConstructor
 public class AccidentJdbcTemplate implements AccidentRepository {
 
 	private final JdbcTemplate jdbc;
 
 	@Override
-	public Accident add(Accident accident) {
+	public Accident add(Accident accident, List<Integer> ids) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbc.update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(
@@ -96,7 +94,7 @@ public class AccidentJdbcTemplate implements AccidentRepository {
 	}
 
 	@Override
-	public void update(Accident accident) {
+	public void update(Accident accident, List<Integer> ids) {
 		log.info("Updating accident: {}", accident);
 		jdbc.update("""
 							update accident

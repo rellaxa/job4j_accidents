@@ -6,10 +6,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Article;
 
+import java.util.Collection;
 import java.util.List;
 
 @Slf4j
-@Repository
 @AllArgsConstructor
 public class ArticleJdbcTemplate implements ArticleRepository {
 
@@ -58,5 +58,10 @@ public class ArticleJdbcTemplate implements ArticleRepository {
 		return jdbc.update(
 				"delete from accident_article where accident_id=?",
 				accidentId) > 0;
+	}
+
+	@Override
+	public Collection<Article> getArticlesByArticleIds(List<Integer> articleIds) {
+		return List.of();
 	}
 }
