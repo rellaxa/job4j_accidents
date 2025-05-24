@@ -1,20 +1,23 @@
-package ru.job4j.accidents.service.accident.type;
+package ru.job4j.accidents.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.repository.accident.type.AccidentTypeRepository;
 
 import java.util.Collection;
 
+@Slf4j
 @Service
 @AllArgsConstructor
-public class SimpleAccidentTypeService implements AccidentTypeService {
+public class AccidentTypeService {
 
 	private final AccidentTypeRepository accidentTypeRepository;
 
-	@Override
 	public Collection<AccidentType> getAllAccidentTypes() {
-		return accidentTypeRepository.getAllAccidentTypes();
+		log.info("Getting all accident types");
+		return accidentTypeRepository.findAll();
 	}
+
 }

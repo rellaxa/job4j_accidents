@@ -10,13 +10,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
-public class AccidentMem implements AccidentRepository {
+public class AccidentMem {
 
 	private final Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
 
 	private final AtomicInteger counter = new AtomicInteger(1);
 
-	@Override
 	public Accident add(Accident accident, List<Integer> articleIds) {
 		accident.setId(counter.getAndIncrement());
 		log.info("Adding accident: {}", accident);
@@ -24,24 +23,20 @@ public class AccidentMem implements AccidentRepository {
 		return accident;
 	}
 
-	@Override
 	public Accident getById(int id) {
 		log.info("Getting accident: {}", id);
 		return accidents.get(id);
 	}
 
-	@Override
 	public List<Accident> getAll() {
 		log.info("Getting all accidents");
 		return new ArrayList<>(accidents.values());
 	}
 
-	@Override
 	public void update(Accident accident, List<Integer> ids) {
 		accidents.put(accident.getId(), accident);
 	}
 
-	@Override
 	public boolean deleteById(int id) {
 		return accidents.remove(id) != null;
 	}

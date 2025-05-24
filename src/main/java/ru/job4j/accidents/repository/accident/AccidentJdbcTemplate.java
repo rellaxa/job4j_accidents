@@ -16,11 +16,10 @@ import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
-public class AccidentJdbcTemplate implements AccidentRepository {
+public class AccidentJdbcTemplate {
 
 	private final JdbcTemplate jdbc;
 
-	@Override
 	public Accident add(Accident accident, List<Integer> ids) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbc.update(connection -> {
@@ -47,7 +46,6 @@ public class AccidentJdbcTemplate implements AccidentRepository {
 		return accident;
 	}
 
-	@Override
 	public Accident getById(int id) {
 		log.info("Getting accident by id: {}", id);
 		Accident accident;
@@ -78,7 +76,6 @@ public class AccidentJdbcTemplate implements AccidentRepository {
 		return accident;
 	}
 
-	@Override
 	public List<Accident> getAll() {
 		log.info("Getting all accidents");
 		return jdbc.query(
@@ -93,7 +90,6 @@ public class AccidentJdbcTemplate implements AccidentRepository {
 				});
 	}
 
-	@Override
 	public void update(Accident accident, List<Integer> ids) {
 		log.info("Updating accident: {}", accident);
 		jdbc.update("""
@@ -124,7 +120,6 @@ public class AccidentJdbcTemplate implements AccidentRepository {
 		}
 	}
 
-	@Override
 	public boolean deleteById(int id) {
 		return jdbc.update("delete from accident where id = ?", id) > 0;
 	}

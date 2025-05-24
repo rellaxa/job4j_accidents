@@ -1,18 +1,25 @@
 package ru.job4j.accidents.repository.accident;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import ru.job4j.accidents.model.Accident;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface AccidentRepository {
 
-	Accident add(Accident accident, List<Integer> articleIds);
+public interface AccidentRepository extends CrudRepository<Accident, Integer> {
 
-	Accident getById(int id);
+	@Query("select a from Accident a join fetch a.articles where a.id = ?1")
+	Optional<Accident> findWithArticlesById(int id);
 
-	List<Accident> getAll();
+	@Override
+	List<Accident> findAll();
 
-	void update(Accident accident, List<Integer> ids);
+	@Modifying
+	@Query("delete from Accident a where a.id = :id")
+	int deleteById(@Param("id") int id);
 
-	boolean deleteById(int id);
 }

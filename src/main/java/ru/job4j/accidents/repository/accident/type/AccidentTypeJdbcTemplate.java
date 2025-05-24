@@ -9,11 +9,10 @@ import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
-public class AccidentTypeJdbcTemplate implements AccidentTypeRepository {
+public class AccidentTypeJdbcTemplate {
 
 	private final JdbcTemplate jdbc;
 
-	@Override
 	public List<AccidentType> getAllAccidentTypes() {
 		log.info("Getting all accident types");
 		return jdbc.query("select id, name from accident_type",

@@ -6,9 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.service.accident.AccidentService;
-import ru.job4j.accidents.service.accident.type.AccidentTypeService;
-import ru.job4j.accidents.service.article.ArticleService;
+import ru.job4j.accidents.service.AccidentService;
+import ru.job4j.accidents.service.AccidentTypeService;
+import ru.job4j.accidents.service.ArticleService;
 
 @Controller
 @AllArgsConstructor
@@ -59,7 +59,7 @@ public class AccidentController {
 	}
 
 	@PostMapping("/updateAccident")
-	public String updatePage(@ModelAttribute Accident accident, HttpServletRequest req, Model model) {
+	public String updateAccident(@ModelAttribute Accident accident, HttpServletRequest req, Model model) {
 		model.addAttribute("user", "relaxa");
 		String[] ids = req.getParameterValues("rIds");
 		accidentService.update(accident, ids);

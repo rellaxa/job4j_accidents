@@ -5,21 +5,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.Article;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@Repository
 @AllArgsConstructor
-public class AccidentHibernate implements AccidentRepository {
+public class AccidentHibernate {
 
 	private final SessionFactory sf;
 
-	@Override
 	public Accident add(Accident accident, List<Integer> articleIds) {
 		try (Session session = sf.openSession()) {
 			Transaction tx = session.beginTransaction();
@@ -31,14 +28,12 @@ public class AccidentHibernate implements AccidentRepository {
 		}
 	}
 
-	@Override
 	public Accident getById(int id) {
 		try (Session session = sf.openSession()) {
 			return session.get(Accident.class, id);
 		}
 	}
 
-	@Override
 	public List<Accident> getAll() {
 		try (Session session = sf.openSession()) {
 			return session.createQuery("from Accident", Accident.class)
@@ -46,7 +41,6 @@ public class AccidentHibernate implements AccidentRepository {
 		}
 	}
 
-	@Override
 	public void update(Accident accident, List<Integer> articleIds) {
 		log.info("Updating accident: {} with article ids: {}", accident, articleIds);
 		try (Session session = sf.openSession()) {
@@ -57,7 +51,6 @@ public class AccidentHibernate implements AccidentRepository {
 		}
 	}
 
-	@Override
 	public boolean deleteById(int id) {
 		log.info("Deleting accident by id: {}", id);
 		try (Session session = sf.openSession()) {
@@ -76,6 +69,6 @@ public class AccidentHibernate implements AccidentRepository {
 		query.setParameter("fIds", articleIds);
 		var articles = query.getResultList();
 		log.info("Articles by article ids: {}", articles);
-		accident.setArticles(new HashSet<>(articles));
+		accident.setArticles(new ArrayList<>(articles));
 	}
 }

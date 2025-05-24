@@ -3,19 +3,16 @@ package ru.job4j.accidents.repository.article;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Article;
 
-import java.util.Collection;
 import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
-public class ArticleJdbcTemplate implements ArticleRepository {
+public class ArticleJdbcTemplate {
 
 	private JdbcTemplate jdbc;
 
-	@Override
 	public Article getById(int id) {
 		log.info("Getting article by id: {}", id);
 		return jdbc.queryForObject("select id, name from article where id=?",
@@ -28,7 +25,6 @@ public class ArticleJdbcTemplate implements ArticleRepository {
 				id);
 	}
 
-	@Override
 	public List<Article> getAll() {
 		log.info("Getting all articles");
 		return jdbc.query("select id, name from article",
@@ -40,7 +36,6 @@ public class ArticleJdbcTemplate implements ArticleRepository {
 				});
 	}
 
-	@Override
 	public List<Article> getAllByAccidentId(int accidentId) {
 		log.info("Getting all articles by accidentId: {}", accidentId);
 		List<Integer> articleIds = jdbc.query("select article_id from accident_article where accident_id=?",
@@ -52,16 +47,10 @@ public class ArticleJdbcTemplate implements ArticleRepository {
 				.toList();
 	}
 
-	@Override
 	public boolean deleteByAccidentId(int accidentId) {
 		log.info("Deleting articles by accident id: {}", accidentId);
 		return jdbc.update(
 				"delete from accident_article where accident_id=?",
 				accidentId) > 0;
-	}
-
-	@Override
-	public Collection<Article> getArticlesByArticleIds(List<Integer> articleIds) {
-		return List.of();
 	}
 }

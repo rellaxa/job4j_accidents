@@ -2,8 +2,8 @@ package ru.job4j.accidents.model;
 
 import lombok.*;
 
-import javax.persistence.*;
-import java.util.Set;
+import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "accident")
@@ -13,8 +13,7 @@ import java.util.Set;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Accident {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private int id;
 
@@ -28,12 +27,12 @@ public class Accident {
 	@JoinColumn(name = "accident_type_id")
 	private AccidentType type;
 
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany
 	@ToString.Include
 	@JoinTable(
 			name = "accident_article",
 			joinColumns = { @JoinColumn(name = "accident_id") },
 			inverseJoinColumns = { @JoinColumn(name = "article_id")}
 	)
-	private Set<Article> articles;
+	private List<Article> articles;
 }
