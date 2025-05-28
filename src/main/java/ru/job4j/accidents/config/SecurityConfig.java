@@ -14,7 +14,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -23,21 +26,27 @@ public class SecurityConfig {
 
 	PasswordEncoder passwordEncoder;
 
+	DataSource dataSource;
+
 	@Bean
 	public UserDetailsService userDetailsService() {
-		UserDetails user = User.withUsername("user")
-				.password(passwordEncoder.encode("111"))
-				.roles("USER")
-				.build();
-
-		UserDetails admin = User.withUsername("admin")
-				.password(passwordEncoder.encode("111"))
-				.roles("USER", "ADMIN")
-				.build();
-
-		return new InMemoryUserDetailsManager(user, admin);
+		JdbcUserDetailsManager uds = new JdbcUserDetailsManager(dataSource);
+		if (!uds.userExists("user")) {
+			UserDetails user = User.withUsername("user")
+					.password(passwordEncoder.encode("111"))
+					.roles("USER")
+					.build();
+			uds.createUser(user);
+		}
+		if (!uds.userExists("admin")) {
+			UserDetails admin = User.withUsername("admin")
+					.password(passwordEncoder.encode("111"))
+					.roles("USER", "ADMIN")
+					.build();
+			uds.createUser(admin);
+		}
+		return uds;
 	}
-
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

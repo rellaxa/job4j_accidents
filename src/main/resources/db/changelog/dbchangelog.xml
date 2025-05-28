@@ -9,4 +9,5 @@
     <include file="../scripts/004_ddl_create_accident_article_table.sql" relativeToChangelogFile="true"/>
     <include file="../scripts/005_dml_insert_article_table.sql" relativeToChangelogFile="true"/>
     <include file="../scripts/006_dml_insert_accident_type_table.sql" relativeToChangelogFile="true"/>
+    <include file="../scripts/007_ddl_create_security_schema_table.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -121,9 +121,19 @@
                 <a class="nav-item nav-link" th:href="@{/accidents/addAccident}">Add accident</a>
             </div>
         </div>
-        <a class="nav-link text-secondary me-3" href="#" th:text="${user}"></a>
+        <a class="nav-link text-secondary me-3" href="#" th:text="${user.username}"></a>
     </div>
 </nav>
+
+<div class="container">
+    <h3 class="card-title">Accidents</h3>
+    <div>
+        <div th:each="accident : ${accidents}"
+             th:value="${accident.id}"
+             th:text="${accident.name}">
+        </div>
+    </div>
+</div>
 
 <footer th:insert="~{fragments/footer :: footer}"></footer>
 <!-- Bootstrap JS -->
