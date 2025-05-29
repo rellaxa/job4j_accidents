@@ -31,20 +31,13 @@ public class SecurityConfig {
 	@Bean
 	public UserDetailsService userDetailsService() {
 		JdbcUserDetailsManager uds = new JdbcUserDetailsManager(dataSource);
-		if (!uds.userExists("user")) {
-			UserDetails user = User.withUsername("user")
-					.password(passwordEncoder.encode("111"))
-					.roles("USER")
-					.build();
-			uds.createUser(user);
-		}
-		if (!uds.userExists("admin")) {
-			UserDetails admin = User.withUsername("admin")
-					.password(passwordEncoder.encode("111"))
-					.roles("USER", "ADMIN")
-					.build();
-			uds.createUser(admin);
-		}
+		uds.setUsersByUsernameQuery(
+				"select username, password, enabled from users where username = ?"
+		);
+		uds.setAuthoritiesByUsernameQuery(
+				" select u.username, a.authority "
+						+ "from authorities as a, users as u "
+						+ "where u.username = ? and u.authority_id = a.id");
 		return uds;
 	}
 
@@ -52,7 +45,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.authorizeHttpRequests(requests -> requests
-						.requestMatchers("/login").permitAll()
+						.requestMatchers("/login", "/reg").permitAll()
 						.requestMatchers("/**").hasAnyRole("USER", "ADMIN")
 				)
 				.formLogin(form -> form
