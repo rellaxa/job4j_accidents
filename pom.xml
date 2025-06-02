@@ -106,7 +106,6 @@
             <properties>
                 <liquibase.config>db/liquibase.properties</liquibase.config>
             </properties>
-
         </profile>
     </profiles>
 

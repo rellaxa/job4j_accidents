@@ -27,8 +27,8 @@ public class Accident {
 	@JoinColumn(name = "accident_type_id")
 	private AccidentType type;
 
+	@ToString.Exclude
 	@ManyToMany
-	@ToString.Include
 	@JoinTable(
 			name = "accident_article",
 			joinColumns = { @JoinColumn(name = "accident_id") },
