@@ -17,7 +17,6 @@ public class IndexController {
 	public String getGeneratedAccidents(Model model) {
 		model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal());
-		model.addAttribute("accidents", accidentService.getAll());
 		return "/index";
 	}
 }

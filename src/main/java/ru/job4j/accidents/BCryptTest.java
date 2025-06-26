@@ -2,7 +2,7 @@ package ru.job4j.accidents;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-public class Main {
+public class BCryptTest {
 
 	public static void main(String[] args) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
